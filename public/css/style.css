@@ -43,3 +43,25 @@ body {
 .alert {
   border-radius: 8px;
 }
+
+/* Brand Theme */
+:root{
+  --brand-blue:#0b57a4;
+  --brand-blue-dark:#083c74;
+  --brand-yellow:#ffd43b;
+}
+.bg-brand{ background-color: var(--brand-blue) !important; }
+.text-brand{ color: var(--brand-blue) !important; }
+.border-brand{ border-color: var(--brand-blue) !important; }
+
+.btn-brand{ background-color: var(--brand-yellow); border-color: var(--brand-yellow); color:#0a2b5e; }
+.btn-brand:hover{ filter: brightness(0.95); color:#07294f; }
+
+.btn-outline-brand{ color: var(--brand-blue); border-color: var(--brand-blue); }
+.btn-outline-brand:hover{ background-color: var(--brand-blue); color:#fff; }
+
+.badge-area{ background: var(--brand-yellow); color:#0a2b5e; }
+
+/* Tables */
+.table-responsive{ border-radius:8px; overflow:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.03); }
+.area-cell{ white-space: pre-line; }

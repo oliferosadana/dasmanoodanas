@@ -1,0 +1,67 @@
+name: CI/CD with Docker Compose
+
+on:
+  push:
+    branches:
+      - master  # Ganti dengan nama branch utama repositori Anda (misalnya: 'master')
+
+jobs:
+  build_and_push_docker_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        # Menggunakan fetch-depth: 0 untuk memastikan semua riwayat dan tag tersedia,
+        # yang berguna jika Anda ingin memberi tag image Docker dengan versi Git.
+        with:
+          fetch-depth: 0
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Get current date and time for image tag
+        id: date
+        run: echo "::set-output name=now::$(date +'%Y%m%d%H%M%S')"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .  # Menggunakan konteks build dari root repositori
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:latest # Tag 'latest'
+            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:${{ steps.date.outputs.now }} # Tag dengan timestamp
+
+  deploy_to_server:
+    runs-on: ubuntu-latest
+    needs: build_and_push_docker_image # Pastikan tahap build & push selesai sebelum deploy
+    steps:
+      - name: Deploy using SSH and Docker Compose
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            # Pindah ke direktori proyek di server Anda yang berisi docker-compose.yml
+            # Contoh: cd /home/user/my-project/
+            # Pastikan path ini sesuai dengan lokasi docker-compose.yml di server Anda.
+            cd /home/ubuntu/dasmanoodanas 
+
+            # Login ke Docker Hub di server (penting jika image private)
+            echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+            # Tarik image terbaru untuk service 'app'
+            docker-compose pull app
+
+            # Hentikan dan hapus kontainer lama, lalu buat ulang dengan image terbaru
+            # --force-recreate akan memaksa kontainer dibuat ulang bahkan jika tidak ada perubahan konfigurasi
+            # --build diperlukan jika ada perubahan di Dockerfile lokal di server (meskipun tidak disarankan untuk deploy)
+            # -d untuk menjalankan di latar belakang
+            docker-compose up -d --force-recreate app
+
+            # Membersihkan image Docker yang tidak terpakai (opsional, untuk menghemat ruang disk)
+            docker image prune -f

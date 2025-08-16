@@ -38,11 +38,13 @@
 </head>
 <body>
   <div class="content-wrapper">
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark bg-brand">
     <div class="container">
-      <span class="navbar-brand mb-0 h1">DAS STOK AKRAB</span>
+      <span class="navbar-brand mb-0 h1 d-flex align-items-center">
+        <img src="img/logo.png" alt="Logo" style="height:32px;width:auto;margin-right:10px;"> DAS STOK AKRAB
+      </span>
       <div>
-        <a href="index.html" class="btn btn-outline-light me-2">
+        <a href="index.html" class="btn btn-outline-brand me-2">
           <i class="bi bi-speedometer2"></i> Dashboard
         </a>
         <button id="btnLogout" class="btn btn-outline-danger">
@@ -56,7 +58,7 @@
     <div class="mb-4">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="toolbar-title h4 mb-0">Management Stok Paket Kuota</h2>
-        <button id="btnTambah" class="btn btn-primary btn-sm">
+        <button id="btnTambah" class="btn btn-brand btn-sm">
           <i class="bi bi-plus-circle"></i> Tambah Paket
         </button>
       </div>
@@ -66,7 +68,7 @@
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
               <input type="url" id="webhookUrl" class="form-control" placeholder="https://example.com/webhook">
-              <button id="btnBroadcast" class="btn btn-outline-secondary btn-compact">
+              <button id="btnBroadcast" class="btn btn-outline-brand btn-compact">
                 <i class="bi bi-broadcast"></i> Broadcast
               </button>
             </div>
@@ -75,13 +77,13 @@
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
               <input type="url" id="webhookUrlStok" class="form-control" placeholder="https://example.com/webhook-stok">
-              <button id="btnBroadcastStok" class="btn btn-outline-secondary btn-compact">
+              <button id="btnBroadcastStok" class="btn btn-outline-brand btn-compact">
                 <i class="bi bi-broadcast"></i> Broadcast Stok
               </button>
             </div>
           </div>
           <div class="col-12 col-lg-2">
-            <button id="btnSaveWebhook" class="btn btn-success w-100">
+            <button id="btnSaveWebhook" class="btn btn-brand w-100">
               <i class="bi bi-save"></i> Simpan URL
             </button>
           </div>
@@ -187,7 +189,7 @@
   <script src="js/auth.js"></script>
   <script src="js/script.js"></script>
   
-  <footer class="bg-dark text-white py-3 mt-auto">
+  <footer class="bg-brand text-white py-3 mt-auto">
     <div class="container text-center">
       <p class="mb-0">oodana store &copy; 2025</p>
     </div>
