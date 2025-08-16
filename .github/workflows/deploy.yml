@@ -33,7 +33,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:latest
-            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:${{ steps.date.outputs.now }}
+            ${{ secrets.DOCKER_USERNAME }}/das-stok-akrab:${{ steps.date.outputs.now }}
 
   deploy_to_server:
     runs-on: ubuntu-latest
