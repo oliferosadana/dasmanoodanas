@@ -32,8 +32,8 @@ jobs:
           context: .  # Menggunakan konteks build dari root repositori
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:latest # Tag 'latest'
-            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:${{ steps.date.outputs.now }} # Tag dengan timestamp
+            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:latest
+            ${{ secrets.DOCKER_USERNAME }}/dasmanoodanas:${{ steps.date.outputs.now }}
 
   deploy_to_server:
     runs-on: ubuntu-latest
