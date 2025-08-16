@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CEK AREA PAKET XL AKRAB</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<style>
+		body { background:#f5f5f5; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+		.navbar { box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+		.container-narrow { max-width: 1100px; }
+		.card { border-radius: 10px; border:1px solid #e5e7eb; }
+		.table thead th { background:#f8f9fa; font-weight:600; }
+		.table td, .table th { vertical-align: top; }
+		.area-cell { white-space: pre-line; }
+		.badge-area { background:#212529; color:#fff; }
+		.search-input { border-radius: 8px; }
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-dark bg-dark">
+		<div class="container container-narrow d-flex align-items-center justify-content-between">
+			<a class="navbar-brand" href="index.html">OODANAA STORE</a>
+			<div class="d-flex gap-2">
+				<a href="index.html" class="btn btn-outline-light btn-sm"><i class="bi bi-speedometer2"></i> Dashboard</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container container-narrow mt-4">
+		<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+			<h1 class="h4 m-0">CEK AREA PAKET XL AKRAB</h1>
+			
+		</div>
+
+		<div class="card p-3 mb-3">
+			<div class="row g-2">
+				<div class="col-12 col-md-6">
+					<input id="qProv" type="text" class="form-control search-input" placeholder="Cari Provinsi...">
+				</div>
+				<div class="col-12 col-md-6">
+					<input id="qKota" type="text" class="form-control search-input" placeholder="Cari Kota/Kabupaten...">
+				</div>
+			</div>
+		</div>
+
+		<div class="card p-3">
+			<div id="statusInfo" class="small text-muted mb-2"></div>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered align-middle">
+					<thead>
+						<tr>
+							<th style="width: 18%">Provinsi</th>
+							<th>Kota/Kabupaten</th>
+							<th style="width: 10%">Area</th>
+						</tr>
+					</thead>
+					<tbody id="areaTableBody">
+						<tr><td colspan="3" class="text-center text-muted py-4">Memuat data...</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer class="bg-dark text-white py-3 mt-4">
+		<div class="container container-narrow text-center">
+			<small>OODANAA STORE &copy; 2025</small>
+		</div>
+	</footer>
+
+	<script>
+	const tbody = document.getElementById('areaTableBody');
+	const qProv = document.getElementById('qProv');
+	const qKota = document.getElementById('qKota');
+	const statusInfo = document.getElementById('statusInfo');
+	let AREA_DATA = [];
+
+	function render(rows) {
+		if (!rows || rows.length === 0) {
+			tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-4">Tidak ada data</td></tr>';
+			return;
+		}
+		const html = rows.map(r => `
+			<tr>
+				<td>${escape(r.provinsi)}</td>
+				<td class="area-cell">${escape(r.kota)}</td>
+				<td><span class="badge badge-area">${escape(r.area)}</span></td>
+			</tr>
+		`).join('');
+		tbody.innerHTML = html;
+	}
+
+	function escape(s){
+		return (s ?? '').toString()
+			.replace(/&/g,'&amp;')
+			.replace(/</g,'&lt;')
+			.replace(/>/g,'&gt;')
+			.replace(/\"/g,'&quot;')
+			.replace(/'/g,'&#039;');
+	}
+
+	function applyFilter() {
+		const p = (qProv.value || '').toLowerCase();
+		const k = (qKota.value || '').toLowerCase();
+		const filtered = AREA_DATA.filter(r =>
+			(r.provinsi.toLowerCase().includes(p)) && (r.kota.toLowerCase().includes(k))
+		);
+		render(filtered);
+	}
+
+	qProv.addEventListener('input', applyFilter);
+	qKota.addEventListener('input', applyFilter);
+
+	async function loadArea() {
+		statusInfo.textContent = 'Mengambil data area...';
+		try {
+			const resp = await fetch('/api/area');
+			if (!resp.ok) throw new Error('HTTP ' + resp.status);
+			const json = await resp.json();
+			AREA_DATA = json.data || [];
+			
+			applyFilter();
+		} catch (err) {
+			statusInfo.textContent = '';
+			tbody.innerHTML = `<tr><td colspan="3" class="text-center text-danger py-4">Gagal memuat data: ${escape(err.message)}</td></tr>`;
+		}
+	}
+
+	// initial load
+	loadArea();
+	</script>
+</body>
+</html>

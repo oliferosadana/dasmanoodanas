@@ -1,0 +1,45 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.stock-low {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.stock-available {
+  color: #198754;
+  font-weight: bold;
+}
+
+.stock-out {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+.btn-icon {
+  padding: 0.25rem 0.5rem;
+}
+
+.alert {
+  border-radius: 8px;
+}
