@@ -50,7 +50,7 @@ jobs:
           
           
         
-            cd /home/ubuntu/dasmanoodanas 
+            cd /home/ubuntu/dasmanoodanas/ 
 
             
             echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
