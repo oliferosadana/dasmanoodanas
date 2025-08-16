@@ -46,22 +46,23 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Pindah ke direktori proyek di server Anda yang berisi docker-compose.yml
-            # Contoh: cd /home/user/my-project/
-            # Pastikan path ini sesuai dengan lokasi docker-compose.yml di server Anda.
+          
+          
+          
+        
             cd /home/ubuntu/dasmanoodanas 
 
-            # Login ke Docker Hub di server (penting jika image private)
+            
             echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-            # Tarik image terbaru untuk service 'app'
+            
             docker-compose pull app
 
-            # Hentikan dan hapus kontainer lama, lalu buat ulang dengan image terbaru
-            # --force-recreate akan memaksa kontainer dibuat ulang bahkan jika tidak ada perubahan konfigurasi
-            # --build diperlukan jika ada perubahan di Dockerfile lokal di server (meskipun tidak disarankan untuk deploy)
-            # -d untuk menjalankan di latar belakang
+            
+            
+            
+            
             docker-compose up -d --force-recreate app
 
-            # Membersihkan image Docker yang tidak terpakai (opsional, untuk menghemat ruang disk)
+            
             docker image prune -f
