@@ -1,76 +1,28 @@
-name: CI/CD Docker Pipeline
-
-on:
-  push:
-    branches:
-      - master      
-  pull_request:
-    branches:
-      - master
-
-jobs:
-  build-and-push-docker-image:
+deploy:
+    needs: build-and-push-docker-image
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && success()
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+      - name: Add SSH Private Key to the agent
+        uses: webfactory/ssh-agent@v0.8.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKER_IMAGE_NAME }} # Nama image Docker Anda, misal: useranda/das-stok-akrab-app
-          tags: |
-            type=raw,value=latest
-            type=sha,format=short
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: . # Konteks build (direktori Dockerfile berada). Sesuaikan jika Dockerfile ada di sub-folder.
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: | # Jika Dockerfile Anda butuh build arguments, tambahkan di sini
-            VERSION=${{ github.sha }}
-
-  deploy:
-    needs: build-and-push-docker-image # Job ini bergantung pada keberhasilan job build-and-push-docker-image
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && success()
-    steps:
-      - name: Checkout repository # Diperlukan untuk mengakses docker-compose.yml di server
-        uses: actions/checkout@v4
-
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy with Docker Compose
         env:
-          # Pastikan variabel lingkungan yang dibutuhkan oleh docker-compose tersedia
-          # Tambahkan semua variabel yang ada di docker-compose.yml yang perlu diisi dari secrets
+          # Variabel lingkungan yang dibutuhkan oleh docker-compose
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE_NAME }}:latest # Pastikan ini sesuai dengan tag yang di-push
+          DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE_NAME }}:latest
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /home/ubuntu/das-stok-akrab 
-            # Pastikan Anda sudah login ke Docker Hub di server atau tambahkan langkah docker login di sini
-            docker-compose pull app 
-            docker-compose up -d --no-deps app 
-            # Jika ada migrasi database yang perlu dijalankan, tambahkan di sini
-            # Contoh: docker-compose exec app npm run migrate
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /home/ubuntu/dasmanoodanas # Ganti dengan path di server Anda
+            docker-compose pull app
+            docker-compose up -d --no-deps app
           EOF
