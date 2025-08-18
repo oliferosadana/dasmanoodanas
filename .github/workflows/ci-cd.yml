@@ -55,7 +55,6 @@ jobs:
 
       - name: Deploy with Docker Compose
         env:
-          # Variabel lingkungan yang dibutuhkan oleh docker-compose
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
@@ -64,9 +63,9 @@ jobs:
           DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE_NAME }}:latest
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /home/ubuntu/dasmanoodanas # Ganti dengan path di server Anda
+            cd /home/ubuntu/dasmanoodanas
             docker-compose pull app
             docker-compose up -d --no-deps app
           EOF
-  
-   
+    
+    
