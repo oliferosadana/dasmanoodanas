@@ -43,7 +43,7 @@ jobs:
   deploy:
     needs: build-and-push-docker-image
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && success()
+    if: github.ref == 'refs/heads/master' && success()
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
