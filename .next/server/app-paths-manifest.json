@@ -1,10 +1,4 @@
 {
   "/page": "app/page.js",
-  "/area/page": "app/area/page.js",
-  "/api/area/route": "app/api/area/route.js",
-  "/management/page": "app/management/page.js",
-  "/api/auth/verify/route": "app/api/auth/verify/route.js",
-  "/api/paket/route": "app/api/paket/route.js",
-  "/api/settings/webhooks/route": "app/api/settings/webhooks/route.js",
-  "/api/paket/[id]/route": "app/api/paket/[id]/route.js"
+  "/api/paket/route": "app/api/paket/route.js"
 }

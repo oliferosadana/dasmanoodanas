@@ -39,6 +39,16 @@ export default function Home() {
               <li className="nav-item">
                 <a className="nav-link" href="/area">Cek Area</a>
               </li>
+              <li className="nav-item ms-2 d-flex align-items-center">
+                <a className="btn btn-outline-brand btn-sm" href="https://wa.me/6281253439968" target="_blank" rel="noopener noreferrer">
+                  <i className="bi bi-whatsapp me-1"></i> WhatsApp
+                </a>
+              </li>
+              <li className="nav-item ms-2 d-flex align-items-center">
+                <a className="btn btn-outline-brand btn-sm" href="https://t.me/oodanaa" target="_blank" rel="noopener noreferrer">
+                  <i className="bi bi-telegram me-1"></i> Telegram
+                </a>
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/login"><i className="bi bi-lock"></i> Login</a>
               </li>
