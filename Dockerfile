@@ -1,27 +1,20 @@
-# Use official Node.js LTS
-FROM node:20-alpine
-
-# Create app directory
+FROM node:20-bullseye-slim AS deps
 WORKDIR /app
-
-# Install deps first (better layer caching)
 COPY package.json package-lock.json* .npmrc* ./
-RUN npm ci --omit=dev
+RUN npm install
 
-# Copy source
-# Create non-root user for security
-RUN addgroup -S nodejs && adduser -S nodeuser -G nodejs
+FROM deps AS builder
+COPY . .
+RUN npm run build
 
-# Copy source code
-COPY --chown=nodeuser:nodejs . .
-
-# Env
+FROM node:20-bullseye-slim AS runner
+WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
-
-# Expose
+RUN addgroup --system nodejs && adduser --system --ingroup nodejs nodeuser
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 EXPOSE 3000
-
-# Start
 USER nodeuser
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

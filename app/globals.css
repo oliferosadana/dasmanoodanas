@@ -1,0 +1,90 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.content-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th { font-weight: 600; }
+.table-hover tbody tr:hover { background-color: rgba(13, 110, 253, 0.05); }
+
+.stock-low { color: #dc3545; font-weight: bold; }
+.stock-available { color: #198754; font-weight: bold; }
+.stock-out { color: #6c757d; font-weight: bold; }
+
+.btn-icon { padding: 0.25rem 0.5rem; }
+.btn-compact { padding: 0.375rem 0.6rem; }
+
+.alert { border-radius: 8px; }
+
+/* Brand Theme */
+:root{
+  --brand-primary:#0A2540;      /* deep navy */
+  --brand-primary-600:#071b2e;
+  --brand-accent:#FFC107;        /* amber */
+  --brand-accent-600:#e0a800;
+}
+.bg-brand{ background-color: var(--brand-primary) !important; }
+.navbar.bg-brand .navbar-brand, .navbar.bg-brand .nav-link { color:#ffffff !important; }
+.navbar.bg-brand .nav-link:hover { color:#e6e6e6 !important; }
+.navbar .btn-outline-brand { color:#fff; border-color:#fff; }
+.navbar .btn-outline-brand:hover { background:#fff; color:var(--brand-primary); }
+.text-brand{ color: var(--brand-primary) !important; }
+.border-brand{ border-color: var(--brand-primary) !important; }
+
+.btn-brand{
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color:#1b1b1b;
+  font-weight: 600;
+}
+.btn-brand:hover{ background-color: var(--brand-accent-600); border-color: var(--brand-accent-600); color:#111; }
+
+.btn-outline-brand{ color: var(--brand-primary); border-color: var(--brand-primary); }
+.btn-outline-brand:hover{ background-color: var(--brand-primary); color:#fff; }
+
+.badge-area{ background: var(--brand-accent); color:#1b1b1b; }
+
+/* Footer contrast */
+footer.bg-brand, .footer.bg-brand { color:#fff; }
+footer.bg-brand a { color:#fff; text-decoration: underline; }
+footer.bg-brand a:hover { color:#e6e6e6; }
+
+/* Tables */
+.table-responsive{ border-radius:8px; overflow:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.03); }
+.area-cell{ white-space: pre-line; }
+
+/* Extra utilities migrated from inline styles */
+.login-form {
+  max-width: 400px;
+  width: 100%;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  background: #fff;
+}
+
+.toolbar-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.container-narrow { max-width: 1100px; }
+
+
