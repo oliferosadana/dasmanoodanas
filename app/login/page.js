@@ -93,11 +93,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <footer className="bg-brand text-white py-3 mt-auto">
-        <div className="container text-center">
-          <p className="mb-0">oodana store &copy; 2025</p>
-        </div>
-      </footer>
     </div>
   );
 }

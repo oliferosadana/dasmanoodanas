@@ -40,6 +40,7 @@ body {
   --brand-primary-600:#071b2e;
   --brand-accent:#FFC107;        /* amber */
   --brand-accent-600:#e0a800;
+  --footer-height: 64px;
 }
 .bg-brand{ background-color: var(--brand-primary) !important; }
 .navbar.bg-brand .navbar-brand, .navbar.bg-brand .nav-link { color:#ffffff !important; }
@@ -66,6 +67,10 @@ body {
 footer.bg-brand, .footer.bg-brand { color:#fff; }
 footer.bg-brand a { color:#fff; text-decoration: underline; }
 footer.bg-brand a:hover { color:#e6e6e6; }
+
+/* Sticky-on-short-content footer (not fixed) */
+.layout-vert { min-height: 100vh; display: flex; flex-direction: column; }
+.layout-vert main { flex: 1 0 auto; }
 
 /* Tables */
 .table-responsive{ border-radius:8px; overflow:auto; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.03); }

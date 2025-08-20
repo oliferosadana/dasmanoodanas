@@ -36,8 +36,10 @@ export default function Home() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/area">Cek Area</a>
+              <li className="nav-item ms-2 d-flex align-items-center">
+                <a className="btn btn-outline-brand btn-sm" href="/area">
+                  <i className="bi bi-geo-alt me-1"></i> Cek Area
+                </a>
               </li>
               <li className="nav-item ms-2 d-flex align-items-center">
                 <a className="btn btn-outline-brand btn-sm" href="https://wa.me/6281253439968" target="_blank" rel="noopener noreferrer">
@@ -105,11 +107,6 @@ export default function Home() {
         )}
       </div>
 
-      <footer className="bg-brand text-white py-3 mt-auto">
-        <div className="container text-center">
-          <p className="mb-0">oodana store &copy; 2025</p>
-        </div>
-      </footer>
     </div>
   );
 }
