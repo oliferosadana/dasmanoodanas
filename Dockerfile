@@ -6,10 +6,14 @@ WORKDIR /app
 
 # Install deps first (better layer caching)
 COPY package.json package-lock.json* .npmrc* ./
-RUN npm install --only=production
+RUN npm ci --omit=dev
 
 # Copy source
-COPY . .
+# Create non-root user for security
+RUN addgroup -S nodejs && adduser -S nodeuser -G nodejs
+
+# Copy source code
+COPY --chown=nodeuser:nodejs . .
 
 # Env
 ENV NODE_ENV=production
@@ -19,4 +23,5 @@ ENV PORT=3000
 EXPOSE 3000
 
 # Start
+USER nodeuser
 CMD ["npm", "start"]
