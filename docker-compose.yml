@@ -22,7 +22,10 @@ services:
       start_period: 20s
 
   app:
-    image: ${DOCKER_IMAGE:-das-stok-akrab-app:latest}
+    image: das-stok-akrab-app
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: das-stok-akrab-app
     depends_on:
       db:
